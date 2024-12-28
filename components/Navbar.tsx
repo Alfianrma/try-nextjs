@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { FaAlignJustify } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
@@ -31,34 +32,42 @@ function Navbar() {
             <FaAlignJustify />
           </button>
         </div>
-        {isOpen && (
-          <div className="fixed inset-0 z-40">
-            <div
-              className="absolute inset-0 bg-black bg-opacity-50"
-              onClick={() => setIsOpen(false)}
-            ></div>
-            <div className="fixed top-0 right-0 h-screen w-4/5 z-50 bg-black text-white">
-              <button
-                className="p-1 m-4 rounded-md border-2 border-white"
+        <AnimatePresence>
+          {isOpen && (
+            <div className="fixed inset-0 z-40">
+              <div
+                className="absolute inset-0 bg-black bg-opacity-50"
                 onClick={() => setIsOpen(false)}
+              ></div>
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="fixed top-0 right-0 h-screen w-4/5 z-50 bg-black text-white"
               >
-                <IoClose className="text-2xl" />
-              </button>
-              <ul className="flex flex-col items-center mt-16">
-                <Link href="/" onClick={() => setIsOpen(false)}>
-                  <li className="p-4 hover:bg-slate-700 w-full text-center">
-                    Home
-                  </li>
-                </Link>
-                <Link href="/about" onClick={() => setIsOpen(false)}>
-                  <li className="p-4 hover:bg-slate-700 w-full text-center">
-                    About
-                  </li>
-                </Link>
-              </ul>
+                <button
+                  className="p-1 m-4 rounded-md border-2 border-white"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <IoClose className="text-2xl" />
+                </button>
+                <ul className="flex flex-col items-center mt-16">
+                  <Link href="/" onClick={() => setIsOpen(false)}>
+                    <li className="p-4 hover:bg-slate-700 w-full text-center">
+                      Home
+                    </li>
+                  </Link>
+                  <Link href="/about" onClick={() => setIsOpen(false)}>
+                    <li className="p-4 hover:bg-slate-700 w-full text-center">
+                      About
+                    </li>
+                  </Link>
+                </ul>
+              </motion.div>
             </div>
-          </div>
-        )}
+          )}
+        </AnimatePresence>
       </nav>
     </>
   );
